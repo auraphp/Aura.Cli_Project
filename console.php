@@ -22,4 +22,7 @@ if (! $mode) {
 
 // create and invoke the project kernel
 $kernel = new CliKernel($loader, $di, $base, $mode);
-$kernel->__invoke();
+$status = $kernel->__invoke();
+
+// exit with the returned status code
+exit($status);
