@@ -15,12 +15,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "aura/cli": "dev-develop-2",
-        "aura/cli-kernel": "dev-develop-2",
-        "aura/di": "1.1.1",
-        "aura/dispatcher" : "dev-develop-2",
-        "aura/includer": "dev-develop-2",
-        "aura/project-kernel": "dev-develop-2",
-        "monolog/monolog": "*"
+        "aura/cli-kernel": "dev-develop-2"
     }
 }
