@@ -110,3 +110,4 @@ These are only some common variations of dispatcher interactions;
 [there are many other combinations][].
 
 [there are many other combinations]: https://github.com/auraphp/Aura.Dispatcher/tree/develop-2#refactoring-to-architecture-changes
+[Aura.Cli_Kernel]: https://github.com/auraphp/Aura.Cli_Kernel/tree/develop-2
