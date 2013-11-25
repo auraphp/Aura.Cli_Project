@@ -3,6 +3,8 @@
  * @var Aura\Di\Container $di The dependency injection container.
  */
 
+use Aura\Cli\Status;
+
 // support objects
 $dispatcher = $di->get('cli_dispatcher');
 $context    = $di->get('cli_context');
