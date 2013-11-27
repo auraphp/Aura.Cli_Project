@@ -1,17 +1,8 @@
 <?php
-use Aura\Di\Config;
-use Aura\Di\Container;
-use Aura\Di\Forge;
-use Aura\Cli_Kernel\CliKernel;
+use Aura\Cli_Kernel\CliKernelFactory;
 
 // the project base directory
 $base = __DIR__;
-
-// autoloader
-$loader = require "{$base}/vendor/autoload.php";
-
-// DI container
-$di = new Container(new Forge(new Config));
 
 // config mode
 $file = str_replace("/", DIRECTORY_SEPARATOR, "{$base}/config/_mode");
@@ -20,9 +11,10 @@ if (! $mode) {
     $mode = "default";
 }
 
-// create and invoke the project kernel
-$kernel = new CliKernel($loader, $di, $base, $mode);
-$status = $kernel->__invoke();
+// autoloader
+$loader = require "{$base}/vendor/autoload.php";
 
-// exit with the returned status code
+// create the project kernel, invoke it, and exit with its status code
+$factory = new CliKernelFactory($base, $mode, $loader);
+$status = (int) $kernel->__invoke();
 exit($status);
