@@ -15,6 +15,7 @@ if (! $mode) {
 $loader = require "{$base}/vendor/autoload.php";
 
 // create the project kernel, invoke it, and exit with its status code
-$factory = new CliKernelFactory($base, $mode, $loader);
+$factory = new CliKernelFactory;
+$kernel = new CliKernel($base, $mode, $loader);
 $status = (int) $kernel->__invoke();
 exit($status);
