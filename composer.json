@@ -15,6 +15,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "aura/cli-kernel": "dev-develop-2"
+        "aura/cli-kernel": "2.*@dev"
     }
 }
