@@ -5,8 +5,8 @@ various libraries and an [Aura.Cli_Kernel][] into a minimal framework for
 CLI applications.
 
 By "minimal" we mean *very* minimal. The project provides only a dependency
-injection container, a configuration system, a command console, context and
-standard I/O objects, and a logging instance.
+injection container, a configuration system, a command console, a pair of
+context and standard I/O objects, and a logging instance.
 
 This minimal implementation should not be taken as "restrictive". The DI
 container, coupled with the kernel's two-stage configuration, allows a wide
@@ -127,12 +127,12 @@ class FooCommand
     public function __invoke($id = null)
     {
         if (! $id) {
-            $stdio->errln("Please pass an ID.");
+            $this->stdio->errln("Please pass an ID.");
             return Status::USAGE;
         }
     
         $id = (int) $id;
-        $stdio->outln("You passed " . $id . " as the ID.");
+        $this->stdio->outln("You passed " . $id . " as the ID.");
     }
 }
 ?>
@@ -162,7 +162,7 @@ name `foo` as a lazy-loaded instantiation.
 /**
  * {$PROJECT_PATH}/config/default/modify/dispatcher.php
  */
-$dispatcher->setObject('blog', $di->lazyNew('App\Commands\FooCommand'));
+$dispatcher->setObject('foo', $di->lazyNew('App\Commands\FooCommand'));
 ?>
 ```
 
