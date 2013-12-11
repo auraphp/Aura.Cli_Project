@@ -10,4 +10,4 @@
  */
 
 // hand off to the kernel script
-require __DIR__ . '/vendor/aura/cli-kernel/scripts/kernel.php';
+require dirname(__DIR__) . '/vendor/aura/cli-kernel/scripts/kernel.php';
