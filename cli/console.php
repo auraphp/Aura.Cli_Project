@@ -9,5 +9,6 @@
  * 
  */
 
-// hand off to the kernel script
-require dirname(__DIR__) . '/vendor/aura/cli-kernel/scripts/kernel.php';
+// hand off to the kernel script and get back the exit status
+$status = require dirname(__DIR__) . '/vendor/aura/cli-kernel/scripts/kernel.php';
+exit($status);
