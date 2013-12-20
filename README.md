@@ -65,8 +65,8 @@ programmatic modification.
 ### Commands
 
 To add routes of your own, edit the
-`{$PROJECT_PATH}/config/default/modify/dispatcher.php` file.
-Here are two different styles of command definition.
+`{$PROJECT_PATH}/config/default/modify/cli_dispatcher.php` file. Here are two
+different styles of command definition.
 
 #### Micro-Framework Style
 
@@ -77,7 +77,7 @@ _Status_ exit codes.
 ```php
 <?php
 /**
- * {$PROJECT_PATH}/config/default/modify/dispatcher.php
+ * {$PROJECT_PATH}/config/default/modify/cli_dispatcher.php
  */
 use Aura\Cli\Status;
 $context = $di->get('cli_context');
@@ -163,7 +163,7 @@ name `foo` as a lazy-loaded instantiation.
 ```php
 <?php
 /**
- * {$PROJECT_PATH}/config/default/modify/dispatcher.php
+ * {$PROJECT_PATH}/config/default/modify/cli_dispatcher.php
  */
 $dispatcher->setObject('foo', $di->lazyNew('App\Commands\FooCommand'));
 ?>
