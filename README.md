@@ -15,6 +15,8 @@ iterative refactoring in mind, so you can start with micro-framework-like
 closure commands, and work your way up to more complex command objects of your
 own design.
 
+[Aura.Cli_Kernel]: https://github.com/auraphp/Aura.Cli_Kernel
+
 ## Foreword
 
 TBD
@@ -36,7 +38,6 @@ the following command:
 
 You should see the output `Hello World!`. Try passing a name after `hello` to
 see `Hello name!`.
-
 
 ### Configuration
 
@@ -183,6 +184,6 @@ These are only some common variations of dispatcher interactions;
 
 ### Logging
 
-The project automatically logs to `{$PROJECT_PATH}/tmp/cli.log`. If you want
-to change the logging behaviors, edit the `config/default/modify/logger.php`
-file to modify how Monolog handles entries.
+The project automatically logs to `{$PROJECT_PATH}/tmp/log/{$mode}.log`. If
+you want to change the logging behaviors, edit the
+`config/default/modify/logger.php` file to modify how Monolog handles entries.
