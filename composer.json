@@ -1,9 +1,13 @@
 {
     "name": "aura/cli-project",
     "type": "project",
-    "description": "A minimal framework built from Aura v2 packages",
+    "description": "A minimal command-line framework built from Aura v2 packages",
     "keywords": [
-        "framework"
+        "cli",
+        "command",
+        "command line",
+        "framework",
+        "project"
     ],
     "license": "BSD-2-Clause",
     "authors": [
@@ -14,11 +18,26 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "aura/cli-kernel": "dev-develop-2"
+        "aura/cli-kernel": "dev-reduced",
+        "monolog/monolog": "1.*"
     },
     "autoload": {
         "psr-0": {
             "": "src/"
+        },
+        "psr-4": {
+            "Aura\\Cli_Project\\_Config\\": "config/"
+        }
+    },
+    "extra": {
+        "aura": {
+            "type": "project",
+            "config": {
+                "common": "Aura\\Cli_Project\\_Config\\Common",
+                "dev": "Aura\\Cli_Project\\_Config\\Dev",
+                "test": "Aura\\Cli_Project\\_Config\\Test",
+                "prod": "Aura\\Cli_Project\\_Config\\Prod"
+            }
         }
     }
 }
