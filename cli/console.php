@@ -9,10 +9,17 @@
  * 
  */
 
-// invoke the project kernel script
-require dirname(__DIR__) . '/vendor/aura/project-kernel/scripts/kernel.php';
+$path = dirname(__DIR__);
+require "{$path}/vendor/autoload.php";
+require "{$path}/config/_env.php";
 
-// create and invoke a cli kernel
-$cli_kernel = $di->newInstance('Aura\Cli_Kernel\CliKernel');
-$status = $cli_kernel();
+$di = (new \Aura\Project_Kernel\Factory)->newContainer(
+    $path,
+    $_ENV['AURA_CONFIG_MODE'],
+    "{$path}/composer.json",
+    "{$path}/vendor/composer/installed.json"
+);
+
+$kernel = $di->newInstance('Aura\Cli_Kernel\CliKernel');
+$status = $kernel();
 exit($status);
