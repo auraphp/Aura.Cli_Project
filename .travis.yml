@@ -5,5 +5,5 @@ php:
 before_script:
   - composer self-update
   - composer install
-  - cd tests
-script: phpunit CliProjectTest.php
+  - cd tests/project
+script: phpunit
