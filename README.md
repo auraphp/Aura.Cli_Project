@@ -1,37 +1,44 @@
 # Aura.Cli_Project
 
-Unlike Aura libraries, this Project package has dependencies. It composes
-various libraries and an [Aura.Cli_Kernel][] into a minimal framework for
-CLI applications.
+This package provides a minimal framework for command-line projects.
 
-By "minimal" we mean *very* minimal. The project provides only a dependency
-injection container, a configuration system, a command console, a pair of
+By "minimal" we mean *very* minimal. The package provides only a dependency
+injection container, a configuration system, a dispatcher, a pair of
 context and standard I/O objects, and a logging instance.
 
 This minimal implementation should not be taken as "restrictive". The DI
-container, coupled with the kernel's two-stage configuration, allows a wide
-range of programmatic service definitions. The dispatcher is built with
+container, with its two-stage configuration system, allows a wide range of 
+programmatic service definitions. The dispatcher is built with
 iterative refactoring in mind, so you can start with micro-framework-like
 closure commands, and work your way up to more complex command objects of your
 own design.
 
-[Aura.Cli_Kernel]: https://github.com/auraphp/Aura.Cli_Kernel
-
 ## Foreword
 
-TBD
+### Requirements
 
-## Getting Started
+This project requires PHP 5.4 or later. Unlike Aura library packages, this 
+project package has userland dependencies, which themselves may have other
+dependencies:
 
-Install via Composer to a `{$PROJECT_PATH}` of your choosing:
+- [aura/cli-kernel](https://packagist.org/packages/aura/cli-kernel)
+- [monolog/monolog](https://packagist.org/packages/monolog/monolog)
+
+### Installation
+
+Install this project via Composer to a `{$PROJECT_PATH}` of your choosing:
 
     composer create-project --stability=dev aura/cli-project {$PROJECT_PATH}
     
-This will create the project skeleton and install all of the necessary
-packages.
+This will create the project skeleton and install all of the necessary packages.
 
-Once you have installed the project, go to the project directory and issue
-the following command:
+### Tests
+
+[![Build Status](https://travis-ci.org/auraphp/Aura.Cli_Project.png?branch=develop-2)](https://travis-ci.org/auraphp/Aura.Cli_Project)
+
+This project has 100% code coverage with [PHPUnit](http://phpunit.de). To run the tests at the command line, go to the `tests/project/` directory and issue `./phpunit.sh`.
+
+Alternatively, after you have installed the project, go to the project directory and issue the following command:
 
     cd {$PROJECT_PATH}
     php cli/console.php hello
@@ -39,58 +46,88 @@ the following command:
 You should see the output `Hello World!`. Try passing a name after `hello` to
 see `Hello name!`.
 
-### Configuration
+### PSR Compliance
 
-Configuration files are located in `{$PROJECT_PATH}/config` and are organized
-into subdirectories by config mode.
+This projects attempts to comply with [PSR-1][], [PSR-2][], and [PSR-4][]. If you notice compliance oversights, please send a patch via pull request.
 
-The config mode is set by `$_ENV['AURA_CONFIG_MODE']`, either via a shell
-variable or the `_env.php` file in the config directory.
+[PSR-1]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md
+[PSR-2]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+[PSR-4]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
 
-The `default` mode directory is always loaded; if the mode is something other
-than `default` then the files in that directory will be loaded after `default`.
+### Community
 
-Aura projects use a two-stage configuration system.
+To ask questions, provide feedback, or otherwise communicate with the Aura community, please join our [Google Group](http://groups.google.com/group/auraphp), follow [@auraphp on Twitter](http://twitter.com/auraphp), or chat with us on #auraphp on Freenode.
 
-1. First, all `define.php` files are included from the packages and the
-project; these define constructor parameters, setter methods, and shared
-services through the DI container.
+### Services
 
-2. After that, the DI container is locked, and all `modify.php` files are
-included; these are for retrieving services from the DI container for
-programmatic modification.
+This package uses services defined by:
 
-(TBD: examples)
+- [Aura.Project_Kernel](https://github.com/auraphp/Aura.Project_Kernel#services)
+- [Aura.Cli_Kernel](https://github.com/auraphp/Aura.Cli_Kernel#services)
+
+This project resets the following services:
+
+- `logger`: an instance of `Monolog\Logger`
+
+
+## Getting Started
+
+### Component Packages
+
+This project combines a collection of independent Aura packages into a cohesive whole. The operation of each package is documented separately.
+
+The dependency injection _Container_ is absolutely central to the operation of an Aura project. Please be familiar with [the Aura.Di docs](https://github.com/auraphp/Aura.Di) before continuing.
+
+You should also familiarize yourself with [Aura.Dispatcher](https://github.com/auraphp/Aura.Dispatcher), as well as the [Aura.Cli](https://github.com/auraphp/Aura.Web) _Context_, _Stdio_, and _Status_ objects.
+
+### Project Configuration
+
+Every Aura project is configured the same way. Please see the [shared configuration docs](https://github.com/auraphp/Aura.Project_Kernel#configuration) for more information.
+
+### Logging
+
+The project automatically logs to `{$PROJECT_PATH}/tmp/log/{$mode}.log`. If
+you want to change the logging behaviors for a particular config mode, edit the related config file (e.g., `config/Dev.php`) file to modify the `logger` service.
 
 ### Commands
 
-To add routes of your own, edit the
-`{$PROJECT_PATH}/config/default/modify/cli_dispatcher.php` file. Here are two
-different styles of command definition.
+We configure commands via the project-level `config/` class files. If a command needs to be available in every config mode, edit the project-level `config/Common.php` class file. If it only needs to be available in a specific mode, e.g. `dev`, then edit the config file for that mode.
+
+Here are two different styles of command definition.
 
 #### Micro-Framework Style
 
-The following is an example of a command where the logic is embedded in the
-dispatcher, using the _Context_ and _Stdio_ services along with standard
-_Status_ exit codes.
+The following is an example of a command where the logic is embedded in the dispatcher, using the `cli_context` and `cli_stdio` services along with standard exit codes. (The dispatcher object name doubles as the command name.)
 
 ```php
 <?php
-/**
- * {$PROJECT_PATH}/config/default/modify/cli_dispatcher.php
- */
-use Aura\Cli\Status;
-$context = $di->get('cli_context');
-$stdio = $di->get('cli_stdio');
-$dispatcher->setObject('foo', function ($id = null) use ($context, $stdio) {
-    if (! $id) {
-        $stdio->errln("Please pass an ID.");
-        return Status::USAGE;
+namespace Aura\Web_Project\_Config;
+
+use Aura\Di\Config;
+use Aura\Di\Container;
+
+class Common extends Config
+{
+    // ...
+
+    public function modifyCliDispatcher(Container $di)
+    {
+        $context = $di->get('cli_context');
+        $stdio = $di->get('cli_stdio');
+        $dispatcher = $di->get('cli_dispatcher');
+        $dispatcher->setObject(
+            'foo',
+            function ($id = null) use ($context, $stdio) {
+                if (! $id) {
+                    $stdio->errln("Please pass an ID.");
+                    return \Aura\Cli\Status::USAGE;
+                }
+                
+                $id = (int) $id;
+                $stdio->outln("You passed " . $id . " as the ID.");
+            }
+        );
     }
-    
-    $id = (int) $id;
-    $stdio->outln("You passed " . $id . " as the ID.");
-});
 ?>
 ```
 
@@ -111,9 +148,9 @@ First, define a command class and place it in the project `src/` directory.
 ```php
 <?php
 /**
- * {$PROJECT_PATH}/src/App/Commands/FooCommand.php
+ * {$PROJECT_PATH}/src/App/Command/FooCommand.php
  */
-namespace App\Commands;
+namespace App\Command;
 
 use Aura\Cli\Stdio;
 use Aura\Cli\Context;
@@ -142,30 +179,40 @@ class FooCommand
 ```
 
 Next, tell the project how to build the _FooCommand_ through the DI
-system. Edit the project `config/default/define.php` config file to tell the
-DI system to pass _Context_ and _Stdio_ objects to the constructor.
+_Container_. Edit the project `config/Common.php` file to configure the
+_Container_ to pass the `cli_context` and `cli_stdio` service objects to 
+the _FooCommand_ constructor. Then put the _App\Command\FooCommand_ object in the dispatcher under the name `foo` as a lazy-loaded instantiation.
 
 ```php
 <?php
-/**
- * {$PROJECT_PATH}/config/default/define.php
- */
-$di->params['App\Commands\FooCommand'] = array(
-    'context' => $di->lazyGet('cli_context'),
-    'stdio' => $di->lazyGet('cli_stdio'),
-);
-?>
-```
+namespace Aura\Web_Project\_Config;
 
-Finally, put the _App\Commands\FooCommand_ object in the dispatcher under the
-name `foo` as a lazy-loaded instantiation.
+use Aura\Di\Config;
+use Aura\Di\Container;
 
-```php
-<?php
-/**
- * {$PROJECT_PATH}/config/default/modify/cli_dispatcher.php
- */
-$dispatcher->setObject('foo', $di->lazyNew('App\Commands\FooCommand'));
+class Common extends Config
+{
+    public function define(Container $di)
+    {
+        $di->set('logger', $di->newInstance('Monolog\Logger'));
+
+        $di->params['App\Command\FooCommand'] = array(
+            'context' => $di->lazyGet('cli_context'),
+            'stdio' => $di->lazyGet('cli_stdio'),
+        );
+    }
+
+    // ...
+
+    public function modifyCliDispatcher(Container $di)
+    {
+        $dispatcher = $di->get('cli_dispatcher');
+
+        $dispatcher->setObject(
+            'foo',
+            $di->lazyNew('App\Command\FooCommand')
+        );
+    }
 ?>
 ```
 
@@ -179,13 +226,4 @@ You can now run the command to see its output.
 #### Other Variations
 
 These are only some common variations of dispatcher interactions;
-[there are many other combinations][].
-
-[there are many other combinations]: https://github.com/auraphp/Aura.Dispatcher/tree/develop-2#refactoring-to-architecture-changes
-
-
-### Logging
-
-The project automatically logs to `{$PROJECT_PATH}/tmp/log/{$mode}.log`. If
-you want to change the logging behaviors, edit the
-`config/default/modify/logger.php` file to modify how Monolog handles entries.
+[there are many other combinations](https://github.com/auraphp/Aura.Dispatcher/tree/develop-2#refactoring-to-architecture-changes).
