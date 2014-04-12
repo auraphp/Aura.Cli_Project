@@ -8,6 +8,8 @@ class Dev extends Config
 {
     public function define(Container $di)
     {
+        ini_set('error_reporting', E_ALL);
+        ini_set('display_errors', true);
     }
 
     public function modify(Container $di)
