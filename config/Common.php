@@ -15,6 +15,7 @@ class Common extends Config
     {
         $this->modifyLogger($di);
         $this->modifyCliDispatcher($di);
+        $this->modifyCliHelpService($di);
     }
 
     protected function modifyLogger(Container $di)
@@ -45,5 +46,17 @@ class Common extends Config
                 $logger->debug("Said hello to '{$name}'");
             }
         );
+    }
+
+    protected function modifyCliHelpService(Container $di)
+    {
+        $help_service = $di->get('cli_help_service');
+
+        $help = $di->newInstance('Aura\Cli\Help');
+        $help_service->set('hello', function () use ($help) {
+            $help->setUsage(array('', '<noun>'));
+            $help->setSummary("A demonstration 'hello world' command.");
+            return $help;
+        });
     }
 }
