@@ -8,7 +8,7 @@ class Common extends Config
 {
     public function define(Container $di)
     {
-        $di->set('logger', $di->newInstance('Monolog\Logger'));
+        $di->set('aura/cli-project:logger', $di->newInstance('Monolog\Logger'));
     }
 
     public function modify(Container $di)
@@ -24,7 +24,7 @@ class Common extends Config
         $mode = $project->getMode();
         $file = $project->getPath("tmp/log/{$mode}.log");
 
-        $logger = $di->get('logger');
+        $logger = $di->get('aura/cli-project:logger');
         $logger->pushHandler($di->newInstance(
             'Monolog\Handler\StreamHandler',
             array(
@@ -35,10 +35,10 @@ class Common extends Config
 
     protected function modifyCliDispatcher(Container $di)
     {
-        $context = $di->get('cli_context');
-        $stdio = $di->get('cli_stdio');
-        $logger = $di->get('logger');
-        $dispatcher = $di->get('cli_dispatcher');
+        $context = $di->get('aura/cli-kernel:context');
+        $stdio = $di->get('aura/cli-kernel:stdio');
+        $logger = $di->get('aura/cli-project:logger');
+        $dispatcher = $di->get('aura/cli-kernel:dispatcher');
         $dispatcher->setObject(
             'hello',
             function ($name = 'World') use ($context, $stdio, $logger) {
@@ -50,7 +50,7 @@ class Common extends Config
 
     protected function modifyCliHelpService(Container $di)
     {
-        $help_service = $di->get('cli_help_service');
+        $help_service = $di->get('aura/cli-kernel:help_service');
 
         $help = $di->newInstance('Aura\Cli\Help');
         $help_service->set('hello', function () use ($help) {
