@@ -35,10 +35,10 @@ class Common extends Config
 
     protected function modifyCliDispatcher(Container $di)
     {
-        $context = $di->get('cli_context');
-        $stdio = $di->get('cli_stdio');
+        $context = $di->get('aura/cli-kernel:context');
+        $stdio = $di->get('aura/cli-kernel:stdio');
         $logger = $di->get('aura/project-kernel:logger');
-        $dispatcher = $di->get('cli_dispatcher');
+        $dispatcher = $di->get('aura/cli-kernel:dispatcher');
         $dispatcher->setObject(
             'hello',
             function ($name = 'World') use ($context, $stdio, $logger) {
@@ -50,7 +50,7 @@ class Common extends Config
 
     protected function modifyCliHelpService(Container $di)
     {
-        $help_service = $di->get('cli_help_service');
+        $help_service = $di->get('aura/cli-kernel:help_service');
 
         $help = $di->newInstance('Aura\Cli\Help');
         $help_service->set('hello', function () use ($help) {

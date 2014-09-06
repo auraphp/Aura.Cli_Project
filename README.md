@@ -112,9 +112,9 @@ class Common extends Config
 
     public function modifyCliDispatcher(Container $di)
     {
-        $context = $di->get('cli_context');
-        $stdio = $di->get('cli_stdio');
-        $dispatcher = $di->get('cli_dispatcher');
+        $context = $di->get('aura/cli-kernel:context');
+        $stdio = $di->get('aura/cli-kernel:stdio');
+        $dispatcher = $di->get('aura/cli-kernel:dispatcher');
         $dispatcher->setObject(
             'foo',
             function ($id = null) use ($context, $stdio) {
@@ -197,8 +197,8 @@ class Common extends Config
         $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));
 
         $di->params['App\Command\FooCommand'] = array(
-            'context' => $di->lazyGet('cli_context'),
-            'stdio' => $di->lazyGet('cli_stdio'),
+            'context' => $di->lazyGet('aura/cli-kernel:context'),
+            'stdio' => $di->lazyGet('aura/cli-kernel:stdio'),
         );
     }
 
@@ -206,7 +206,7 @@ class Common extends Config
 
     public function modifyCliDispatcher(Container $di)
     {
-        $dispatcher = $di->get('cli_dispatcher');
+        $dispatcher = $di->get('aura/cli-kernel:dispatcher');
 
         $dispatcher->setObject(
             'foo',
