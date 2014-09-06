@@ -8,7 +8,7 @@ class Common extends Config
 {
     public function define(Container $di)
     {
-        $di->set('logger', $di->newInstance('Monolog\Logger'));
+        $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));
     }
 
     public function modify(Container $di)
@@ -24,7 +24,7 @@ class Common extends Config
         $mode = $project->getMode();
         $file = $project->getPath("tmp/log/{$mode}.log");
 
-        $logger = $di->get('logger');
+        $logger = $di->get('aura/project-kernel:logger');
         $logger->pushHandler($di->newInstance(
             'Monolog\Handler\StreamHandler',
             array(
@@ -37,7 +37,7 @@ class Common extends Config
     {
         $context = $di->get('cli_context');
         $stdio = $di->get('cli_stdio');
-        $logger = $di->get('logger');
+        $logger = $di->get('aura/project-kernel:logger');
         $dispatcher = $di->get('cli_dispatcher');
         $dispatcher->setObject(
             'hello',

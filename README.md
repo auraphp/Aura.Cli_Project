@@ -7,7 +7,7 @@ injection container, a configuration system, a dispatcher, a pair of
 context and standard I/O objects, and a logging instance.
 
 This minimal implementation should not be taken as "restrictive". The DI
-container, with its two-stage configuration system, allows a wide range of 
+container, with its two-stage configuration system, allows a wide range of
 programmatic service definitions. The dispatcher is built with
 iterative refactoring in mind, so you can start with micro-framework-like
 closure commands, and work your way up to more complex command objects of your
@@ -17,7 +17,7 @@ own design.
 
 ### Requirements
 
-This project requires PHP 5.4 or later. Unlike Aura library packages, this 
+This project requires PHP 5.4 or later. Unlike Aura library packages, this
 project package has userland dependencies, which themselves may have other
 dependencies:
 
@@ -29,7 +29,7 @@ dependencies:
 Install this project via Composer to a `{$PROJECT_PATH}` of your choosing:
 
     composer create-project --stability=dev aura/cli-project {$PROJECT_PATH}
-    
+
 This will create the project skeleton and install all of the necessary packages.
 
 ### Tests
@@ -122,7 +122,7 @@ class Common extends Config
                     $stdio->errln("Please pass an ID.");
                     return \Aura\Cli\Status::USAGE;
                 }
-                
+
                 $id = (int) $id;
                 $stdio->outln("You passed " . $id . " as the ID.");
             }
@@ -163,14 +163,14 @@ class FooCommand
         $this->context = $context;
         $this->stdio = $stdio;
     }
-    
+
     public function __invoke($id = null)
     {
         if (! $id) {
             $this->stdio->errln("Please pass an ID.");
             return Status::USAGE;
         }
-    
+
         $id = (int) $id;
         $this->stdio->outln("You passed " . $id . " as the ID.");
     }
@@ -180,7 +180,7 @@ class FooCommand
 
 Next, tell the project how to build the _FooCommand_ through the DI
 _Container_. Edit the project `config/Common.php` file to configure the
-_Container_ to pass the `cli_context` and `cli_stdio` service objects to 
+_Container_ to pass the `cli_context` and `cli_stdio` service objects to
 the _FooCommand_ constructor. Then put the _App\Command\FooCommand_ object in the dispatcher under the name `foo` as a lazy-loaded instantiation.
 
 ```php
@@ -194,7 +194,7 @@ class Common extends Config
 {
     public function define(Container $di)
     {
-        $di->set('logger', $di->newInstance('Monolog\Logger'));
+        $di->set('aura/project-kernel:logger', $di->newInstance('Monolog\Logger'));
 
         $di->params['App\Command\FooCommand'] = array(
             'context' => $di->lazyGet('cli_context'),
