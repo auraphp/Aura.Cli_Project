@@ -96,7 +96,7 @@ Here are two different styles of command definition.
 
 #### Micro-Framework Style
 
-The following is an example of a command where the logic is embedded in the dispatcher, using the `cli_context` and `cli_stdio` services along with standard exit codes. (The dispatcher object name doubles as the command name.)
+The following is an example of a command where the logic is embedded in the dispatcher, using the `aura/cli-kernel:context` and `aura/cli-kernel:stdio` services along with standard exit codes. (The dispatcher object name doubles as the command name.)
 
 ```php
 <?php
@@ -179,7 +179,7 @@ class FooCommand
 
 Next, tell the project how to build the _FooCommand_ through the DI
 _Container_. Edit the project `config/Common.php` file to configure the
-_Container_ to pass the `cli_context` and `cli_stdio` service objects to
+_Container_ to pass the `aura/cli-kernel:context` and `aura/cli-kernel:stdio` service objects to
 the _FooCommand_ constructor. Then put the _App\Command\FooCommand_ object in the dispatcher under the name `foo` as a lazy-loaded instantiation.
 
 ```php

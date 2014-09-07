@@ -38,6 +38,9 @@
                 "test": "Aura\\Cli_Project\\_Config\\Test",
                 "prod": "Aura\\Cli_Project\\_Config\\Prod"
             }
+        },
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
         }
     }
 }
