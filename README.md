@@ -67,7 +67,7 @@ This package uses services defined by:
 
 This project resets the following services:
 
-- `logger`: an instance of `Monolog\Logger`
+- `aura/project-kernel:logger`: an instance of `Monolog\Logger`
 
 
 ## Getting Started
@@ -86,8 +86,7 @@ Every Aura project is configured the same way. Please see the [shared configurat
 
 ### Logging
 
-The project automatically logs to `{$PROJECT_PATH}/tmp/log/{$mode}.log`. If
-you want to change the logging behaviors for a particular config mode, edit the related config file (e.g., `config/Dev.php`) file to modify the `logger` service.
+The project automatically logs to `{$PROJECT_PATH}/tmp/log/{$mode}.log`. If you want to change the logging behaviors for a particular config mode, edit the related config file (e.g., `config/Dev.php`) file to modify the `aura/project-kernel:logger` service.
 
 ### Commands
 
