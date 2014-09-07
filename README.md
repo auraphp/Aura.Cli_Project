@@ -78,7 +78,7 @@ This project combines a collection of independent Aura packages into a cohesive 
 
 The dependency injection _Container_ is absolutely central to the operation of an Aura project. Please be familiar with [the Aura.Di docs](https://github.com/auraphp/Aura.Di) before continuing.
 
-You should also familiarize yourself with [Aura.Dispatcher](https://github.com/auraphp/Aura.Dispatcher), as well as the [Aura.Cli](https://github.com/auraphp/Aura.Web) _Context_, _Stdio_, and _Status_ objects.
+You should also familiarize yourself with [Aura.Dispatcher](https://github.com/auraphp/Aura.Dispatcher), as well as the [Aura.Cli](https://github.com/auraphp/Aura.Cli) _Context_, _Stdio_, and _Status_ objects.
 
 ### Project Configuration
 
@@ -100,7 +100,7 @@ The following is an example of a command where the logic is embedded in the disp
 
 ```php
 <?php
-namespace Aura\Web_Project\_Config;
+namespace Aura\Cli_Project\_Config;
 
 use Aura\Di\Config;
 use Aura\Di\Container;
@@ -184,7 +184,7 @@ the _FooCommand_ constructor. Then put the _App\Command\FooCommand_ object in th
 
 ```php
 <?php
-namespace Aura\Web_Project\_Config;
+namespace Aura\Cli_Project\_Config;
 
 use Aura\Di\Config;
 use Aura\Di\Container;
