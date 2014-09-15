@@ -16,7 +16,6 @@
             "homepage": "https://github.com/auraphp/Aura.Cli_Project/contributors"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "aura/cli-kernel": "2.*@dev",
         "monolog/monolog": "1.*"
