@@ -1,3 +1,7 @@
 /vendor
 *.phar
 *.lock
+/tmp/cache/*
+!/tmp/cache/.placeholder
+/tmp/log/*
+!/tmp/log/.placeholder
