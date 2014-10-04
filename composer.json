@@ -18,14 +18,12 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "aura/cli-kernel": "2.*@dev",
-        "monolog/monolog": "1.*"
+        "aura/cli-kernel": "~2.0",
+        "monolog/monolog": "~1.0"
     },
     "autoload": {
-        "psr-0": {
-            "": "src/"
-        },
         "psr-4": {
+            "": "src/",
             "Aura\\Cli_Project\\_Config\\": "config/"
         }
     },
