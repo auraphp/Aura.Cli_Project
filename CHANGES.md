@@ -1,1 +1,5 @@
-Initial 2.0 beta release.
+- ADD: Help for hello command.
+
+- CHG: Use new logger and cli-kernel service names.
+
+- DOC: Update README and docblocks.
