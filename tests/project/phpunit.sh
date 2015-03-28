@@ -1,3 +1,0 @@
-phpunit
-STATUS=$?
-exit $STATUS
