@@ -1,1 +1,1 @@
-- CHG: Remove minimum-stability=dev from composer.json and README.
+This release modifies the testing structure and updates other support files.
